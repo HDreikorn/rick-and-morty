@@ -1,6 +1,9 @@
 .App {
   text-align: center;
 }
+body {
+  overflow-x: hidden;
+}
 
 .App-header {
   background-color: #282c34;

@@ -10,6 +10,7 @@ import {
 } from "@material-ui/core";
 import SearchIcon from "@material-ui/icons/Search";
 import { makeStyles } from "@material-ui/core/styles";
+import EpisodeList from "./episode-list";
 
 const useStyles = makeStyles((theme) => ({
   episodeBtn: {
@@ -40,6 +41,7 @@ const RANDOM_EPISODE_QUERY = gql`
 export default function SearchEpisode() {
   const classes = useStyles();
   const [searchFilter, setSearchFilter] = useState("");
+  const [showRandom, setShowRandom] = useState(false);
   const [executeSearch, { data }] = useLazyQuery(EPISODE_SEARCH_QUERY);
   const [executeRandom, { data: randomData }] = useLazyQuery(
     RANDOM_EPISODE_QUERY
@@ -55,6 +57,7 @@ export default function SearchEpisode() {
     executeSearch({
       variables: { filter: searchFilter },
     });
+    setShowRandom(false);
   };
 
   const handleRandom = () => {
@@ -65,6 +68,7 @@ export default function SearchEpisode() {
     executeRandom({
       variables: { ids: randomNums },
     });
+    setShowRandom(true);
   };
 
   return (
@@ -82,7 +86,7 @@ export default function SearchEpisode() {
               <SearchIcon />
             </InputAdornment>
           }
-          labelWidth={122}
+          labelWidth={50}
         />
         <FormHelperText>
           Find episode by name, if left blank first 20 will show!
@@ -98,7 +102,10 @@ export default function SearchEpisode() {
       <Button variant="contained" color="secondary" onClick={handleRandom}>
         Generate 5 Randoms
       </Button>
-      {console.log(randomData)}
+      {randomData && showRandom && (
+        <EpisodeList data={randomData} type={"random"} />
+      )}
+      {data && !showRandom && <EpisodeList data={data} type={"filtered"} />}
     </div>
   );
 }

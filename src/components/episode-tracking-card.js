@@ -6,22 +6,13 @@ import {
   ListItemIcon,
   ListItemSecondaryAction,
   ListSubheader,
+  IconButton,
   Card,
-  Button,
 } from "@material-ui/core";
-import AddIcon from "@material-ui/icons/Add";
 import CheckIcon from "@material-ui/icons/Check";
-import { makeStyles } from "@material-ui/core/styles";
-
-const useStyles = makeStyles((theme) => ({
-  btn: {
-    margin: theme.spacing(2),
-  },
-}));
+import DeleteIcon from "@material-ui/icons/Delete";
 
 export default function EpisodeTrackingCard({ title }) {
-  const classes = useStyles();
-
   return (
     <Card>
       <List subheader={<ListSubheader>{title.toUpperCase()}</ListSubheader>}>
@@ -37,16 +28,13 @@ export default function EpisodeTrackingCard({ title }) {
             <CheckIcon />
           </ListItemIcon>
           <ListItemText id="switch-list-label-bluetooth" primary="Bluetooth" />
-          <ListItemSecondaryAction>mee</ListItemSecondaryAction>
+          <ListItemSecondaryAction>
+            <IconButton edge="end" aria-label="add">
+              <DeleteIcon />
+            </IconButton>
+          </ListItemSecondaryAction>
         </ListItem>
       </List>
-      <Button
-        variant="contained"
-        startIcon={<AddIcon />}
-        className={classes.btn}
-      >
-        Add Episode
-      </Button>
     </Card>
   );
 }

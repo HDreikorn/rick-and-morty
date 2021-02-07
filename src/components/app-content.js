@@ -2,7 +2,7 @@ import React from "react";
 import { Grid } from "@material-ui/core";
 import EpisodeTrackingCard from "./episode-tracking-card";
 import { makeStyles } from "@material-ui/core/styles";
-import EpisodeBrowser from "./episode-browser";
+import SearchEpisode from "./search-episode";
 
 const useStyles = makeStyles((theme) => ({
   cardContainer: {
@@ -21,7 +21,7 @@ export default function AppContent() {
       className={classes.cardContainer}
     >
       <Grid item xs={6} md={3}>
-        <EpisodeBrowser />
+        <SearchEpisode />
       </Grid>
       <Grid item xs={6} md={3}>
         <EpisodeTrackingCard title={"watched"} />

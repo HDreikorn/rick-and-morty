@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { Grid } from "@material-ui/core";
 import EpisodeTrackingCard from "./episode-tracking-card";
 import { makeStyles } from "@material-ui/core/styles";
 import SearchEpisode from "./search-episode";
+import { EpisodeListContext } from "../context/episode-lists-context";
 
 const useStyles = makeStyles((theme) => ({
   cardContainer: {
@@ -12,6 +13,8 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AppContent() {
   const classes = useStyles();
+  const { state } = useContext(EpisodeListContext);
+
   return (
     <Grid
       container
@@ -24,13 +27,13 @@ export default function AppContent() {
         <SearchEpisode />
       </Grid>
       <Grid item xs={6} md={3}>
-        <EpisodeTrackingCard title={"watched"} />
+        <EpisodeTrackingCard title={"watched"} list={state.watched} />
       </Grid>
       <Grid item xs={6} md={3}>
-        <EpisodeTrackingCard title={"favorites"} />
+        <EpisodeTrackingCard title={"favorites"} list={state.favorite} />
       </Grid>
       <Grid item xs={6} md={3}>
-        <EpisodeTrackingCard title={"must-Watch"} />
+        <EpisodeTrackingCard title={"must-watch"} list={state.mustWatch} />
       </Grid>
     </Grid>
   );

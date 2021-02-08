@@ -8,10 +8,13 @@ import {
   MenuItem,
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
-import React from "react";
+import { EpisodeListContext } from "../context/episode-lists-context";
+import React, { useContext } from "react";
 
 export default function EpisodeList({ data, type }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const { dispatch } = useContext(EpisodeListContext);
+  const [selectedEpisode, setSelectedEpisode] = React.useState({});
 
   const mapEpisodes = () => {
     let dataToMap = [];
@@ -25,7 +28,11 @@ export default function EpisodeList({ data, type }) {
       <ListItem key={episode.id}>
         <ListItemText primary={episode.name} />
         <ListItemSecondaryAction>
-          <IconButton edge="end" aria-label="add" onClick={handleClick}>
+          <IconButton
+            edge="end"
+            aria-label="add"
+            onClick={(e) => handleClick(e, episode.name, episode.id)}
+          >
             <AddIcon />
           </IconButton>
         </ListItemSecondaryAction>
@@ -33,11 +40,13 @@ export default function EpisodeList({ data, type }) {
     ));
   };
 
-  const handleClick = (event) => {
+  const handleClick = (event, name, id) => {
+    setSelectedEpisode({ name: name, id: id });
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleClose = (action) => {
+    dispatch({ type: action, payload: selectedEpisode });
     setAnchorEl(null);
   };
 
@@ -51,9 +60,13 @@ export default function EpisodeList({ data, type }) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>Favorite</MenuItem>
-        <MenuItem onClick={handleClose}>Watch</MenuItem>
-        <MenuItem onClick={handleClose}>Must-Watch</MenuItem>
+        <MenuItem onClick={() => handleClose("ADD_FAVORITE")}>
+          Favorite
+        </MenuItem>
+        <MenuItem onClick={() => handleClose("ADD_WATCHED")}>Watched</MenuItem>
+        <MenuItem onClick={() => handleClose("ADD_MUST_WATCH")}>
+          Must-Watch
+        </MenuItem>
       </Menu>
     </div>
   );

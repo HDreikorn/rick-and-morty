@@ -8,32 +8,36 @@ import {
   ListSubheader,
   IconButton,
   Card,
+  Typography,
 } from "@material-ui/core";
-import CheckIcon from "@material-ui/icons/Check";
 import DeleteIcon from "@material-ui/icons/Delete";
 
-export default function EpisodeTrackingCard({ title }) {
+export default function EpisodeTrackingCard({ title, list }) {
+  const mapEpisodesToList = () => {
+    console.log(list);
+    if (!list) {
+      return (
+        <ListItem>
+          <Typography>Empty List</Typography>
+        </ListItem>
+      );
+    }
+    return list.map((episode) => (
+      <ListItem key={`list-item${episode.id}`}>
+        <ListItemText primary={episode.name} />
+        <ListItemSecondaryAction>
+          <IconButton edge="end" aria-label="add">
+            <DeleteIcon />
+          </IconButton>
+        </ListItemSecondaryAction>
+      </ListItem>
+    ));
+  };
+
   return (
     <Card>
       <List subheader={<ListSubheader>{title.toUpperCase()}</ListSubheader>}>
-        <ListItem>
-          <ListItemIcon>
-            <CheckIcon />
-          </ListItemIcon>
-          <ListItemText id="switch-list-label-wifi" primary="Wi-Fi" />
-          <ListItemSecondaryAction>moo</ListItemSecondaryAction>
-        </ListItem>
-        <ListItem>
-          <ListItemIcon>
-            <CheckIcon />
-          </ListItemIcon>
-          <ListItemText id="switch-list-label-bluetooth" primary="Bluetooth" />
-          <ListItemSecondaryAction>
-            <IconButton edge="end" aria-label="add">
-              <DeleteIcon />
-            </IconButton>
-          </ListItemSecondaryAction>
-        </ListItem>
+        {mapEpisodesToList()}
       </List>
     </Card>
   );

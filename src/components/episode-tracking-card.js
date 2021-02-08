@@ -14,11 +14,12 @@ import DeleteIcon from "@material-ui/icons/Delete";
 
 export default function EpisodeTrackingCard({ title, list }) {
   const mapEpisodesToList = () => {
-    console.log(list);
-    if (!list) {
+    if (!list || list.length < 1) {
       return (
         <ListItem>
-          <Typography>Empty List</Typography>
+          <Typography>
+            Nothing to see here...yet. Use search on left to add.
+          </Typography>
         </ListItem>
       );
     }

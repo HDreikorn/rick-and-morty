@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import {
   List,
   ListItemText,
@@ -11,8 +11,11 @@ import {
   Typography,
 } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
+import { EpisodeListContext } from "../context/episode-lists-context";
 
 export default function EpisodeTrackingCard({ title, list }) {
+  const { dispatch } = useContext(EpisodeListContext);
+
   const mapEpisodesToList = () => {
     if (!list || list.length < 1) {
       return (
@@ -27,12 +30,29 @@ export default function EpisodeTrackingCard({ title, list }) {
       <ListItem key={`list-item${episode.id}`}>
         <ListItemText primary={episode.name} />
         <ListItemSecondaryAction>
-          <IconButton edge="end" aria-label="add">
+          <IconButton
+            edge="end"
+            aria-label="add"
+            onClick={(e) => handleDelete(e, episode.name, episode.id)}
+          >
             <DeleteIcon />
           </IconButton>
         </ListItemSecondaryAction>
       </ListItem>
     ));
+  };
+
+  const handleDelete = (e, name, id) => {
+    if (title === "watched") {
+      dispatch({ type: "DELETE_WATCHED", payload: { name: name, id: id } });
+    } else if (title === "favorites") {
+      dispatch({ type: "DELETE_FAVORITE", payload: { name: name, id: id } });
+    } else if (title === "must-watch") {
+      dispatch({
+        type: "DELETE_MUST_WATCH",
+        payload: { name: name, id: id },
+      });
+    }
   };
 
   return (

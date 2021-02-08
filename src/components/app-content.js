@@ -33,7 +33,7 @@ export default function AppContent() {
         <EpisodeTrackingCard title={"favorites"} list={state.favorite} />
       </Grid>
       <Grid item xs={6} md={3}>
-        <EpisodeTrackingCard title={"must-Watch"} list={state.mustWatch} />
+        <EpisodeTrackingCard title={"must-watch"} list={state.mustWatch} />
       </Grid>
     </Grid>
   );

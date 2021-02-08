@@ -20,3 +20,12 @@ You can view the site [here](https://elegant-fermat-69c901.netlify.app/)!
 - Project is deployed using Netlify, connecting to this Github repository.
 
 - Project connects to a [Rick and Morty graphql API](https://rickandmortyapi.com/documentation/#graphql) using apollo client.
+
+---
+
+##### Future Ideas
+
+To make this little app more useful future ideas include:
+
+- User signup/ login. (OAuth)
+- Backend implemenation to acutally save things. (Node Server, Apllo Graph QL Server, PostgreSQL )

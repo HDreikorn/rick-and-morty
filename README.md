@@ -1,6 +1,6 @@
-# H1 Rick and Morty Simple Episode Tracker
+# Rick and Morty Simple Episode Tracker
 
-##### Overview:
+#### Overview:
 
 This is a simple web application that allows the user to add episodes of Rick and Morty in categories of lists, including Favorites, Watched, and Must-Watch. The user is able to add by searching a specific episode or generating a random list of episodes to add to any of the lists. The user can also delete from the list once added.
 

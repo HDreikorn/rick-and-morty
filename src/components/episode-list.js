@@ -9,9 +9,12 @@ import {
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import React from "react";
+import { connect } from "react-redux";
+import { addFavorite } from "../redux/actions";
 
-export default function EpisodeList({ data, type }) {
+let EpisodeList = ({ data, type }) => {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [selectedEpisode, setSelectedEpisode] = React.useState({});
 
   const mapEpisodes = () => {
     let dataToMap = [];
@@ -25,7 +28,11 @@ export default function EpisodeList({ data, type }) {
       <ListItem key={episode.id}>
         <ListItemText primary={episode.name} />
         <ListItemSecondaryAction>
-          <IconButton edge="end" aria-label="add" onClick={handleClick}>
+          <IconButton
+            edge="end"
+            aria-label="add"
+            onClick={(e) => handleClick(e, episode.name, episode.id)}
+          >
             <AddIcon />
           </IconButton>
         </ListItemSecondaryAction>
@@ -33,11 +40,15 @@ export default function EpisodeList({ data, type }) {
     ));
   };
 
-  const handleClick = (event) => {
+  const handleClick = (event, name, id) => {
+    console.log(name, id);
     setAnchorEl(event.currentTarget);
   };
 
-  const handleClose = () => {
+  const handleClose = (action) => {
+    if (action === "FAVORITE") {
+      addFavorite();
+    }
     setAnchorEl(null);
   };
 
@@ -51,10 +62,20 @@ export default function EpisodeList({ data, type }) {
         open={Boolean(anchorEl)}
         onClose={handleClose}
       >
-        <MenuItem onClick={handleClose}>Favorite</MenuItem>
-        <MenuItem onClick={handleClose}>Watch</MenuItem>
-        <MenuItem onClick={handleClose}>Must-Watch</MenuItem>
+        <MenuItem onClick={() => handleClose("FAVORITE")}>Favorite</MenuItem>
+        <MenuItem onClick={() => handleClose("WATCH")}>Watch</MenuItem>
+        <MenuItem onClick={() => handleClose("MUST_WATCH")}>
+          Must-Watch
+        </MenuItem>
       </Menu>
     </div>
   );
-}
+};
+
+const mapDispatchToProps = {
+  favorite: addFavorite,
+};
+
+EpisodeList = connect(null, mapDispatchToProps)(EpisodeList);
+
+export default EpisodeList;

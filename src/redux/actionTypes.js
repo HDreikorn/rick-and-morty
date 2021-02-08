@@ -1,0 +1,6 @@
+export const ADD_FAVORITE = "ADD_FAVORITE";
+export const ADD_WATCH = "ADD_WATCH";
+export const ADD_MUST_WATCH = "ADD_MUST_WATCH";
+export const DELETE_FAVORITE = "DELETE_FAVORITE";
+export const DELETE_WATCH = "DELETE_WATCH";
+export const DELETE_MUST_WATCH = "DELETE_MUST_WATCH";

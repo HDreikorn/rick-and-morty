@@ -20,7 +20,7 @@ export default function AppContent() {
       container
       spacing={3}
       justify="center"
-      alignItems="center"
+      alignItems="flex-start"
       className={classes.cardContainer}
     >
       <Grid item xs={6} md={3}>

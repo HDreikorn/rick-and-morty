@@ -1,6 +1,6 @@
-import React, { createContext, useReducer } from "react";
+import React, { createContext, useEffect, useReducer } from "react";
 
-const initialState = {
+const initialState = JSON.parse(localStorage.getItem("listState")) || {
   favorite: [],
   watched: [],
   mustWatch: [],
@@ -53,6 +53,12 @@ const EpisodeListContext = createContext();
 
 const EpisodeListProvider = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState);
+
+  useEffect(() => {
+    console.log(state);
+    localStorage.setItem("listState", JSON.stringify(state));
+    console.log(localStorage.getItem("listState"));
+  });
 
   return (
     <EpisodeListContext.Provider value={{ state, dispatch }}>

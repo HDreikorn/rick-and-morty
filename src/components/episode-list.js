@@ -8,7 +8,6 @@ import {
   MenuItem,
   Snackbar,
 } from "@material-ui/core";
-import MuiAlert from "@material-ui/lab/Alert";
 import AddIcon from "@material-ui/icons/Add";
 import { EpisodeListContext } from "../context/episode-lists-context";
 import React, { useContext } from "react";

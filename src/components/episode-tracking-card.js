@@ -13,7 +13,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import { EpisodeListContext } from "../context/episode-lists-context";
 
 export default function EpisodeTrackingCard({ title, list }) {
-  const { state, dispatch } = useContext(EpisodeListContext);
+  const { dispatch } = useContext(EpisodeListContext);
 
   const mapEpisodesToList = () => {
     if (!list || list.length < 1) {

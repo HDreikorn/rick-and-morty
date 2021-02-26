@@ -6,14 +6,20 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  Snackbar,
 } from "@material-ui/core";
 import AddIcon from "@material-ui/icons/Add";
 import { EpisodeListContext } from "../context/episode-lists-context";
 import React, { useContext } from "react";
+import Alert from "@material-ui/lab/Alert";
 
 export default function EpisodeList({ data, type }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const { dispatch } = useContext(EpisodeListContext);
+  const [open, setOpen] = React.useState(false);
+  const {
+    state: { favorite, watched, mustWatch },
+    dispatch,
+  } = useContext(EpisodeListContext);
   const [selectedEpisode, setSelectedEpisode] = React.useState({});
 
   const mapEpisodes = () => {
@@ -46,12 +52,46 @@ export default function EpisodeList({ data, type }) {
   };
 
   const handleClose = (action) => {
-    dispatch({ type: action, payload: selectedEpisode });
+    let found = false;
+    // Determine if episode is duplicate in list
+    if (action === "ADD_FAVORITE") {
+      found = favorite.find((episode) => episode.id === selectedEpisode.id);
+    } else if (action === "ADD_WATCHED") {
+      found = watched.find((episode) => episode.id === selectedEpisode.id);
+    } else if (action === "ADD_MUST_WATCH") {
+      found = mustWatch.find((episode) => episode.id === selectedEpisode.id);
+    }
+
+    if (found) {
+      setOpen(true);
+    } else {
+      //Otherwise dispatch
+      dispatch({ type: action, payload: selectedEpisode });
+    }
+
     setAnchorEl(null);
+  };
+
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
   };
 
   return (
     <div>
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+      >
+        <Alert onClose={handleSnackbarClose} severity="info">
+          This episode is already in this list! 🐱‍🚀
+        </Alert>
+      </Snackbar>
       {data && <List>{mapEpisodes()}</List>}
       <Menu
         id="add-to-list-menu"

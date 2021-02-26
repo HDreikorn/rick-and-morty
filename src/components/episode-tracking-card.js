@@ -13,13 +13,13 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import { EpisodeListContext } from "../context/episode-lists-context";
 
 export default function EpisodeTrackingCard({ title, list }) {
-  const { dispatch } = useContext(EpisodeListContext);
+  const { state, dispatch } = useContext(EpisodeListContext);
 
   const mapEpisodesToList = () => {
     if (!list || list.length < 1) {
       return (
         <ListItem>
-          <Typography>
+          <Typography data-testid={`default-test-${title}`}>
             Nothing to see here...yet. Use search on left to add.
           </Typography>
         </ListItem>

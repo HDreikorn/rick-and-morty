@@ -13,7 +13,10 @@ import React, { useContext } from "react";
 
 export default function EpisodeList({ data, type }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
-  const { dispatch } = useContext(EpisodeListContext);
+  const {
+    state: { favorite, watched, mustWatch },
+    dispatch,
+  } = useContext(EpisodeListContext);
   const [selectedEpisode, setSelectedEpisode] = React.useState({});
 
   const mapEpisodes = () => {
@@ -46,7 +49,23 @@ export default function EpisodeList({ data, type }) {
   };
 
   const handleClose = (action) => {
-    dispatch({ type: action, payload: selectedEpisode });
+    let found = false;
+    // Determine if episode is duplicate in list
+    if (action === "ADD_FAVORITE") {
+      found = favorite.find((episode) => episode.id === selectedEpisode.id);
+    } else if (action === "ADD_WATCHED") {
+      found = watched.find((episode) => episode.id === selectedEpisode.id);
+    } else if (action === "ADD_MUST_WATCH") {
+      found = mustWatch.find((episode) => episode.id === selectedEpisode.id);
+    }
+
+    if (found) {
+      console.log("found!");
+    } else {
+      //Otherwise dispatch
+      dispatch({ type: action, payload: selectedEpisode });
+    }
+
     setAnchorEl(null);
   };
 

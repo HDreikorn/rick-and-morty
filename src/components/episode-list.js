@@ -6,13 +6,17 @@ import {
   IconButton,
   Menu,
   MenuItem,
+  Snackbar,
 } from "@material-ui/core";
+import MuiAlert from "@material-ui/lab/Alert";
 import AddIcon from "@material-ui/icons/Add";
 import { EpisodeListContext } from "../context/episode-lists-context";
 import React, { useContext } from "react";
+import Alert from "@material-ui/lab/Alert";
 
 export default function EpisodeList({ data, type }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [open, setOpen] = React.useState(false);
   const {
     state: { favorite, watched, mustWatch },
     dispatch,
@@ -60,7 +64,7 @@ export default function EpisodeList({ data, type }) {
     }
 
     if (found) {
-      console.log("found!");
+      setOpen(true);
     } else {
       //Otherwise dispatch
       dispatch({ type: action, payload: selectedEpisode });
@@ -69,8 +73,26 @@ export default function EpisodeList({ data, type }) {
     setAnchorEl(null);
   };
 
+  const handleSnackbarClose = (event, reason) => {
+    if (reason === "clickaway") {
+      return;
+    }
+
+    setOpen(false);
+  };
+
   return (
     <div>
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleSnackbarClose}
+        anchorOrigin={{ vertical: "bottom", horizontal: "left" }}
+      >
+        <Alert onClose={handleSnackbarClose} severity="info">
+          This episode is already in this list! 🐱‍🚀
+        </Alert>
+      </Snackbar>
       {data && <List>{mapEpisodes()}</List>}
       <Menu
         id="add-to-list-menu"
